@@ -1,3 +1,4 @@
+library(rpart)
 
 EvalTree <- function(train_set, test_set, treshold) {
 	# build tree model, predicting the V1 attribute, basing on the rest
