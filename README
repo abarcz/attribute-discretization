@@ -1,0 +1,6 @@
+Coding style:
+1. indentation = TAB
+2. <- instead of =
+3. variable names = lowercase + '_'
+4. function names = CamelCase
+5. everything else: http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html
