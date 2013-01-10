@@ -1,3 +1,7 @@
 Coding style:
 1. indentation = TAB
 2. everything else: http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html
+
+Running tests from 'test' directory:
+In top directory run R.
+Type: source("run_tests.R")
