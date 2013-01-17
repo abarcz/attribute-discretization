@@ -57,16 +57,3 @@ DiscretizeAttribute.TopDown <- function(object, attribute.name) {
 	}
 	return(split.points)
 }
-
-CreateSlice.TopDown <- function(object, attribute.name) {
-	# select data slice, containing label and processed attribute
-	class.label <- object$class.label
-	data_slice <- data.frame(labels=object$data[[class.label]],
-		attr=object$data[[attribute.name]])
-
-	# sort data_slice according to attr values
-	data_slice <- data_slice[order(data_slice$attr), ]
-
-	return(data_slice)
-}
-

@@ -14,11 +14,24 @@ CreateSlice <- function(object, attribute.name) {
 # base class functions definitions
 
 CreateBaseDiscretization <- function(formula, data, stop.criterion) {
+	# Base class constructor - performs basic argument checking,
+	# parses provided formula.
+	#
+	# Args:
+	#	formula: formula defining which attributes are to be used (e.g. Z ~ .)
+	#	data: data.frame
+	#	stop.criterion: a StopCriterion object
+	#
+	# Returns:
+	#	Discretization model.
 	if (class(formula) != "formula") {
 		stop("invalid formula")
 	}
 	if (class(data) != "data.frame") {
 		stop("Argument 'data' is not a data.frame")
+	}
+	if (!("StopCriterion" %in% class(stop.criterion))) {
+		stop("Argument 'stop.criterion' is not a StopCriterion")
 	}
 	# select attribute labels to be discretized
 	discretized.attrs <- labels(terms(formula, data=data))
@@ -46,6 +59,18 @@ DiscretizeSelected.Discretization <- function(object) {
 	return(object)
 }
 
+CreateSlice.Discretization <- function(object, attribute.name) {
+	# select data slice, containing label and processed attribute
+	class.label <- object$class.label
+	data_slice <- data.frame(labels=object$data[[class.label]],
+		attr=object$data[[attribute.name]])
+
+	# sort data_slice according to attr values
+	data_slice <- data_slice[order(data_slice$attr), ]
+
+	return(data_slice)
+}
+
 print.Discretization <- function(object, ...) {
 	print(object$call)
 }
@@ -63,6 +88,8 @@ summary.Discretization <- function(object, ...) {
 }
 
 predict.Discretization <- function(object, newdata) {
+	# Discretize newdata according to already
+	# defined discretization.
 	if (class(newdata) != "data.frame") {
 		stop("Argument 'newdata' is not a data.frame")
 	}
