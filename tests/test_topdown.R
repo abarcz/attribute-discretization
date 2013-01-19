@@ -42,5 +42,6 @@ test.topdown <- function()
 	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(0.1))$split.points, list(y=c(2.5, 4.5)))
 	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(1.4))$split.points, list(y=c(2.5, 4.5)))
 	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(1.5))$split.points, list())
- 
+
+	checkEquals(TopDown(x ~ ., m, DeltaCriterion())$split.points, list())
 }

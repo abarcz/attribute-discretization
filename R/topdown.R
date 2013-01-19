@@ -1,6 +1,6 @@
 source("discretization.R")
 source("topdown_interval.R")
-source("stop_criterion.R")
+source("topdown_stop_criterions.R")
 
 TopDown <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) {
 	# Computes the top-down discretization of given data.
@@ -13,6 +13,9 @@ TopDown <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) {
 	#
 	# Returns:
 	#	model that can be used for discretization
+	if (!("TopDownStopCriterion" %in% class(stop.criterion))) {
+		stop("Argument 'stop.criterion' is not a TopDownStopCriterion")
+	}
 
 	model <- CreateBaseDiscretization(formula, data, stop.criterion)
 
