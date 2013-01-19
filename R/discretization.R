@@ -24,7 +24,7 @@ CreateBaseDiscretization <- function(formula, data, stop.criterions) {
 	# Args:
 	#	formula: formula defining which attributes are to be used (e.g. Z ~ .)
 	#	data: data.frame
-	#	stop.criterion: a StopCriterion object
+	#	stop.criterion: a StopCriterion object (or a list of)
 	#
 	# Returns:
 	#	Discretization model.
