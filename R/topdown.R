@@ -33,21 +33,27 @@ DiscretizeAttribute.TopDown <- function(object, attribute.name) {
 	intervals <- list(TopDownInterval(data, "labels", "attr"))
 	split.points <- c()
 	while (!Satisfied(object$stop.criterion, intervals)) {
-		max.entropy.decrease <- 0
+		max.entropy.decrease <- -Inf
 		selected.interval.index <- 0
 		index <- 1
 		for (interval in intervals) {
 			if (interval$weighted.entropy.decrease > max.entropy.decrease) {
-					max.entropy.decrease <- interval$weighted.entropy.decrease
-					selected.interval.index <- index
+					if (!is.null(interval$best.treshold)) {
+						max.entropy.decrease <- interval$weighted.entropy.decrease
+						selected.interval.index <- index
+					}
 			}
 			index <- index + 1
 		}
-		if (max.entropy.decrease == 0) {
+		if (selected.interval.index == 0) {
+			print(paste("Warning: no more intervals to split for", attribute.name))
 			break
 		}
 		interval.to.split <- intervals[[selected.interval.index]]
 		split.points[length(split.points) + 1] <- interval.to.split$best.treshold
+		if (max.entropy.decrease <= 0) {
+			print(paste("Warning: splitting", attribute.name, "at", interval.to.split$best.treshold, "doesn't decrease entropy"))
+		}
 		new.intervals <- Split(interval.to.split)
 
 		intervals[[selected.interval.index]] <- NULL	# delete old interval

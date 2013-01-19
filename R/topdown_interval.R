@@ -69,7 +69,7 @@ FindBestSplit.TopDownInterval <- function(object) {
 	prev.treshold <- possible.tresholds[1]
 	possible.tresholds <- possible.tresholds[2:length(possible.tresholds)]
 
-	min.entropy <- object$entropy
+	min.entropy <- Inf
 	selected.treshold <- NULL
 	for (treshold in possible.tresholds) {
 		selector <- data[[object$attr.label]] < treshold

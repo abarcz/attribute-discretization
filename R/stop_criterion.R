@@ -10,6 +10,19 @@ StopCriterion <- function() {
 	return(criterion)
 }
 
+RequestedIntervalsNumCriterion <- function(intervals.num) {
+	criterion <- list(intervals.num=intervals.num)
+	class(criterion) <- c("RequestedIntervalsNumCriterion", "StopCriterion")
+	return(criterion)
+}
+
+Satisfied.RequestedIntervalsNumCriterion <- function(object, intervals) {
+	if (length(intervals) >= object$intervals.num) {
+		return(TRUE)
+	} else {
+		return(FALSE)
+	}
+}
 
 MaxIntervalsNumCriterion <- function(max.intervals.num) {
 	criterion <- list(max.intervals.num=max.intervals.num)
@@ -21,7 +34,12 @@ Satisfied.MaxIntervalsNumCriterion <- function(object, intervals) {
 	if (length(intervals) >= object$max.intervals.num) {
 		return(TRUE)
 	} else {
-		return(FALSE)
+		for (interval in intervals) {
+			if (interval$weighted.entropy.decrease > 0) {
+				return(FALSE)
+			}
+		}
+		return(TRUE)
 	}
 }
 
