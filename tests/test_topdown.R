@@ -11,6 +11,7 @@ test.topdown <- function()
 	y <- c(1, 2, 3, 4, 5)
 	z <- c(1, 1, 1, 2, 2)
 	m <- data.frame(x, y, z)
+	m
 	td <- TopDown(x ~ ., m, MaxIntervalsNumCriterion(5))
 	checkEquals(td$discretized.attrs, c("y", "z"))
 	checkEquals(td$class.label, "x")
