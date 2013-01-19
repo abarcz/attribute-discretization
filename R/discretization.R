@@ -52,8 +52,10 @@ DiscretizeSelected.Discretization <- function(object) {
 	all.split.points <- list()
 	for (attr.name in object$discretized.attrs) {
 		split.points <- DiscretizeAttribute(object, attr.name)
-		split.points <- split.points[order(split.points)]
-		all.split.points[[attr.name]] <- split.points
+		if (!is.null(split.points)) {
+			split.points <- split.points[order(split.points)]
+			all.split.points[[attr.name]] <- split.points
+		}
 	}
 	object[["split.points"]] <- all.split.points
 	return(object)
@@ -79,7 +81,7 @@ summary.Discretization <- function(object, ...) {
 	cat("Summary of discretization model:\n")
 	print(object$call)
 	split.points <- object$split.points
-	for (attr.name in names(split.points)) {
+	for (attr.name in object$discretized.attrs) {
 		cat("Attribute '")
 		cat(attr.name)
 		cat("' split points:\n")

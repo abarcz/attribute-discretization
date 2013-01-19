@@ -22,9 +22,10 @@ TopDownInterval <- function(data, class.label, attr.label) {
 	#	An interval with best split calculated.
 
 	entropy <- Entropy(data[[class.label]])
+	classes.num <- length(unique(data[[class.label]]))
 
 	interval <- list(data=data, class.label=class.label, attr.label=attr.label,
-			entropy=entropy)
+			entropy=entropy, classes.num=classes.num)
 	class(interval) <- "TopDownInterval"
 
 	interval <- FindBestSplit(interval)	# in R objects are always passed by value..
@@ -69,7 +70,7 @@ FindBestSplit.TopDownInterval <- function(object) {
 	prev.treshold <- possible.tresholds[1]
 	possible.tresholds <- possible.tresholds[2:length(possible.tresholds)]
 
-	min.entropy <- object$entropy
+	min.entropy <- Inf
 	selected.treshold <- NULL
 	for (treshold in possible.tresholds) {
 		selector <- data[[object$attr.label]] < treshold

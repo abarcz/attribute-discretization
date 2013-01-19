@@ -10,15 +10,14 @@ StopCriterion <- function() {
 	return(criterion)
 }
 
-
-MaxIntervalsNumCriterion <- function(max.intervals.num) {
-	criterion <- list(max.intervals.num=max.intervals.num)
-	class(criterion) <- c("MaxIntervalsNumCriterion", "StopCriterion")
+RequestedIntervalsNumCriterion <- function(intervals.num) {
+	criterion <- list(intervals.num=intervals.num)
+	class(criterion) <- c("RequestedIntervalsNumCriterion", "TopDownStopCriterion", "BottomUpStopCriterion", "StopCriterion")
 	return(criterion)
 }
 
-Satisfied.MaxIntervalsNumCriterion <- function(object, intervals) {
-	if (length(intervals) >= object$max.intervals.num) {
+Satisfied.RequestedIntervalsNumCriterion <- function(object, intervals) {
+	if (length(intervals) >= object$intervals.num) {
 		return(TRUE)
 	} else {
 		return(FALSE)
