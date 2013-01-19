@@ -8,8 +8,7 @@ TopDown <- function(formula, data, stop.criterions=MinEntropyDecreaseCriterion(0
 	# Args:
 	#	formula: a formula, selecting args for discretization
 	#	data: training data, used to build discretization model
-	#	stop.criterion.name: name of stop criterion to use
-	#	stop.criterion.params: correctly named list of params for s-c
+	#	stop.criterion: a StopCriterion object (or a list of)
 	#
 	# Returns:
 	#	model that can be used for discretization

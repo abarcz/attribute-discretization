@@ -19,7 +19,7 @@ RequestedIntervalsNumCriterion <- function(intervals.num) {
 	return(criterion)
 }
 
-Satisfied.RequestedIntervalsNumCriterion <- function(object, intervals) {
+Satisfied.RequestedIntervalsNumCriterion <- function(object, intervals, ...) {
 	if (length(intervals) == object$intervals.num) {
 		return(TRUE)
 	} else {

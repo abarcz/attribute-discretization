@@ -8,7 +8,7 @@ MinEntropyDecreaseCriterion <- function(min.decrease) {
 
 Satisfied.MinEntropyDecreaseCriterion <- function(object, intervals) {
 	for (interval in intervals) {
-		if (interval$weighted.entropy.decrease > object$min.decrease) {
+		if (interval$entropy.decrease > object$min.decrease) {
 			return(FALSE)
 		}
 	}

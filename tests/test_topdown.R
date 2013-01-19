@@ -35,8 +35,7 @@ test.topdown <- function()
 
 	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(0.0))$split.points, list(y=c(2.5, 4.5), z=c(1.5)))
 	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(0.1))$split.points, list(y=c(2.5, 4.5)))
-	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(1.4))$split.points, list(y=c(2.5, 4.5)))
-	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(1.5))$split.points, list())
+	checkEquals(TopDown(x ~ ., m, MinEntropyDecreaseCriterion(0.3))$split.points, list())
 
 	checkEquals(TopDown(x ~ ., m, list(RequestedIntervalsNumCriterion(4), MinEntropyDecreaseCriterion(0)))$split.points,
 		list(y=c(2.5, 4.5), z=c(1.5)))	# second criterion stops splitting for y and z

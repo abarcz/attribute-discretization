@@ -54,6 +54,7 @@ FindBestSplit.TopDownInterval <- function(object) {
 	samples.num <- dim(data)[1]
 
 	if (samples.num == 1) {
+		object$entropy.decrease <- 0
 		object$weighted.entropy.decrease <- 0
 		object$best.treshold <- NULL
 		return(object)
@@ -61,6 +62,7 @@ FindBestSplit.TopDownInterval <- function(object) {
 
 	possible.tresholds <- unique(data[[object$attr.label]])
 	if (length(possible.tresholds) < 2) {
+		object$entropy.decrease <- 0
 		object$weighted.entropy.decrease <- 0
 		object$best.treshold <- NULL
 		return(object)
@@ -92,6 +94,7 @@ FindBestSplit.TopDownInterval <- function(object) {
 	}
 
 	entropy.decrease <- object$entropy - min.entropy
+	object$entropy.decrease <- entropy.decrease
 	object$weighted.entropy.decrease <- entropy.decrease * samples.num
 	object$best.treshold <- selected.treshold
 	return(object)

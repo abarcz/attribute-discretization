@@ -11,7 +11,7 @@ CreateSlice <- function(object, attribute.name) {
 	UseMethod("CreateSlice")
 }
 
-StopCriterionSatisfied <- function(object, intervals) {
+StopCriterionSatisfied <- function(object, intervals, ...) {
 	UseMethod("StopCriterionSatisfied")
 }
 
@@ -24,7 +24,7 @@ CreateBaseDiscretization <- function(formula, data, stop.criterions) {
 	# Args:
 	#	formula: formula defining which attributes are to be used (e.g. Z ~ .)
 	#	data: data.frame
-	#	stop.criterion: a StopCriterion object
+	#	stop.criterion: a StopCriterion object (or a list of)
 	#
 	# Returns:
 	#	Discretization model.
@@ -88,10 +88,10 @@ CreateSlice.Discretization <- function(object, attribute.name) {
 	return(data_slice)
 }
 
-StopCriterionSatisfied.Discretization <- function(object, intervals) {
+StopCriterionSatisfied.Discretization <- function(object, intervals, ...) {
 	# checks all provided stop criterions
 	for (criterion in object$stop.criterions) {
-		if (Satisfied(criterion, intervals)) {
+		if (Satisfied(criterion, intervals, ...)) {
 			return(TRUE)
 		}
 	}
