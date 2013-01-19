@@ -100,11 +100,6 @@ StopCriterionSatisfied.Discretization <- function(object, intervals, ...) {
 
 print.Discretization <- function(object, ...) {
 	print(object$call)
-}
-
-summary.Discretization <- function(object, ...) {
-	cat("Summary of discretization model:\n")
-	print(object$call)
 	split.points <- object$split.points
 	for (attr.name in object$discretized.attrs) {
 		cat("Attribute '")
@@ -112,6 +107,10 @@ summary.Discretization <- function(object, ...) {
 		cat("' split points:\n")
 		print(split.points[[attr.name]])
 	}
+}
+
+summary.Discretization <- function(object, ...) {
+	print(object, ...)
 }
 
 predict.Discretization <- function(object, newdata) {
