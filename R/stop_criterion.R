@@ -24,3 +24,20 @@ Satisfied.MaxIntervalsNumCriterion <- function(object, intervals) {
 		return(FALSE)
 	}
 }
+
+MinEntropyDecreaseCriterion <- function(min.decrease) {
+	criterion <- list(min.decrease=min.decrease)
+	class(criterion) <- c("MinEntropyDecreaseCriterion", "StopCriterion")
+	return(criterion)
+}
+
+Satisfied.MinEntropyDecreaseCriterion <- function(object, intervals) {
+	found.nonsatisfied <- FALSE
+	for (interval in intervals) {
+		if (interval$weighted.entropy.decrease > object$min.decrease) {
+			found.nonsatisfied <- TRUE
+			break
+		}
+	}
+	return(!found.nonsatisfied)
+}
