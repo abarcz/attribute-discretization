@@ -7,7 +7,7 @@ test.topdown <- function()
 	checkException(TopDown(1, data.frame()), 'First arg must be formula')
 	checkException(TopDown(V ~ ., 0), 'Second arg must be data.frame')
 
-	x <- c(0, 0, 1, 1, 0)
+	x <- as.factor(c(0, 0, 1, 1, 0))
 	y <- c(1, 2, 3, 4, 5)
 	z <- c(1, 1, 1, 2, 2)
 	m <- data.frame(x, y, z)
@@ -49,7 +49,7 @@ test.topdown <- function()
 
 	z <- c(5, 5, 5, 3, 3)	# different values to check if predict works
 	m <- data.frame(x, y, z)
-	checkEquals(predict(TopDown(x ~ ., m), m), data.frame(x=x, y=c(1, 1, 2, 2, 3), z=c(2, 2, 2, 1, 1)))
-	checkEquals(predict(TopDown(x ~ y, m), m), data.frame(x=x, y=c(1, 1, 2, 2, 3), z=z))
-	checkEquals(predict(TopDown(x ~ z, m), m), data.frame(x=x, y=y, z=c(2, 2, 2, 1, 1)))
+	checkEquals(predict(TopDown(x ~ ., m), m), data.frame(x=x, y=as.factor(c(1, 1, 2, 2, 3)), z=as.factor(c(2, 2, 2, 1, 1))))
+	checkEquals(predict(TopDown(x ~ y, m), m), data.frame(x=x, y=as.factor(c(1, 1, 2, 2, 3)), z=z))
+	checkEquals(predict(TopDown(x ~ z, m), m), data.frame(x=x, y=y, z=as.factor(c(2, 2, 2, 1, 1))))
 }
