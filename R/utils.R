@@ -19,6 +19,12 @@ Entropy <- function(vec) {
 CreateIntervals <- function(data,split.points) {
 	intervals <- list()
 	maxi <- 0
+	
+	if(is.null(split.points) || length(split.points)==0) {
+		intervals[[1]] <- data
+		return (intervals)
+	}
+
 	for(i in 1:length(split.points)) {
 		split.point <- split.points[i]
 		selector <- data[["attr"]] < split.point
@@ -34,6 +40,11 @@ CreateIntervals <- function(data,split.points) {
 
 CreateInintialSplitPoints <- function(data) {
 	split.points <- c()
+
+	if(length(data$attr)==0) {
+		return (split.points)
+	}
+
 	for(i in 1:(length(data[["attr"]])-1)) {
 		value1 <- data[i, "attr"]
 		value2 <- data[i+1, "attr"]
@@ -57,6 +68,13 @@ CalculateChiForAllIntervals <- function(intervals) {
 }
 	
 MergeSplitPoints <- function(split.points, index.split.poin.to.merge) {
+	new.split.points <- c()
+	print(paste("length split points", length(split.points)))
+	if(length(split.points)==1) {
+		print("return c()")
+		return (new.split.points)
+	}
+
 	if(index.split.poin.to.merge == 1) {
 		split.points.tmp1 <- c()
 	} else {
