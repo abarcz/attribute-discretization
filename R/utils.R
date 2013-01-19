@@ -73,3 +73,48 @@ MergeSplitPoints <- function(split.points, index.split.poin.to.merge) {
 	
 	return(new.split.points)
 }
+
+CalculateChi <-function(interval1, interval2) {
+	sum1 <- 0
+	sum2 <- 0
+	chi<-0
+	labels <- c(unique(interval1$labels), unique(interval2$labels))
+	labels <- unique(labels)
+	print(labels)
+
+	for(label in labels) {
+		A1j <- 0
+		A2j <- 0
+		print(paste("j",label))
+		selector <- interval1$labels == label
+		print(paste("selector",selector))
+		A1j <- length(interval1[selector,]$attr)
+		print(paste("A1j",A1j))
+		selector <- interval2$labels == label
+		print(paste("selector",selector))
+		A2j <- length(interval2[selector,]$attr)
+		print(paste("A2j",A2j))
+		R1 <- length(interval1$attr)
+		print(paste("R1 ",R1))
+		R2 <- length(interval2$attr)
+		print(paste("R2 ",R2))
+		Cj <- A1j + A2j
+		print(paste("Cj ",Cj))
+		N <- R1 + R2
+		print(paste("N ",N))
+		E1j <- (R1*Cj)/N
+		print(paste("E1j ",E1j))
+		E2j <- (R2*Cj)/N
+		print(paste("E2j ",E2j))
+		tmpSum1j <- (((A1j-E1j)^2)/E1j)
+		sum1 <- sum1+tmpSum1j
+		print(paste("tmpSum1j",tmpSum1j))
+		print(paste("sum1 ",sum1))
+		tmpSum2j <- (((A2j-E2j)^2)/E2j)
+		sum2 <- sum2+tmpSum2j
+		print(paste("tmpSum2j",tmpSum2j))
+		print(paste("sum2 ",sum2))
+		chi <- tmpSum1j + tmpSum2j + chi
+	}
+	return(chi)
+}

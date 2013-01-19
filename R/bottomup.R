@@ -32,7 +32,7 @@ DiscretizeAttribute.BottomUp <- function(object, attribute.name) {
 
 	split.points <- CreateInitialSplitPoints(data)
 	intervals <- CreateIntervals(data, split.points)
-
+	
 	while (!Satisfied(object$stop.criterion, intervals)) {
 		chi.vector <- CalculateChiForAllIntervals(intervals)
 
