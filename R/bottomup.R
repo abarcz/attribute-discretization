@@ -1,4 +1,3 @@
-
 source("discretization.R")
 source("stop_criterion.R")
 source("utils.R")
