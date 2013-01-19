@@ -11,9 +11,13 @@ CreateSlice <- function(object, attribute.name) {
 	UseMethod("CreateSlice")
 }
 
+StopCriterionSatisfied <- function(object, intervals) {
+	UseMethod("StopCriterionSatisfied")
+}
+
 # base class functions definitions
 
-CreateBaseDiscretization <- function(formula, data, stop.criterion) {
+CreateBaseDiscretization <- function(formula, data, stop.criterions) {
 	# Base class constructor - performs basic argument checking,
 	# parses provided formula.
 	#
@@ -30,8 +34,19 @@ CreateBaseDiscretization <- function(formula, data, stop.criterion) {
 	if (class(data) != "data.frame") {
 		stop("Argument 'data' is not a data.frame")
 	}
-	if (!("StopCriterion" %in% class(stop.criterion))) {
-		stop("Argument 'stop.criterion' is not a StopCriterion")
+	if ("list" %in% class(stop.criterions)) {
+		if (length(stop.criterions) < 1) {
+			stop("List of stop criterions cannot be empty")
+		}
+		for (stop.criterion in stop.criterions) {
+			if (!("StopCriterion" %in% class(stop.criterion))) {
+				stop("Argument 'stop.criterion' is not a StopCriterion")
+			}
+		}
+	} else if ("StopCriterion" %in% class(stop.criterions)) {
+		stop.criterions <- list(stop.criterions)
+	} else {
+		stop("Argument 'stop.criterions' is neither a StopCriterion nor a list of StopCriterions")
 	}
 	# select attribute labels to be discretized
 	discretized.attrs <- labels(terms(formula, data=data))
@@ -40,7 +55,7 @@ CreateBaseDiscretization <- function(formula, data, stop.criterion) {
 	label <- toString(formula[[2]])
 
 	model <- list(formula=formula, class.label=label,
-		stop.criterion=stop.criterion,
+		stop.criterions=stop.criterions,
 		discretized.attrs=discretized.attrs,
 		data=data)
 	class(model) <- "Discretization"
@@ -73,6 +88,16 @@ CreateSlice.Discretization <- function(object, attribute.name) {
 	return(data_slice)
 }
 
+StopCriterionSatisfied.Discretization <- function(object, intervals) {
+	# checks all provided stop criterions
+	for (criterion in object$stop.criterions) {
+		if (Satisfied(criterion, intervals)) {
+			return(TRUE)
+		}
+	}
+	return(FALSE)
+}
+
 print.Discretization <- function(object, ...) {
 	print(object$call)
 }
@@ -95,6 +120,25 @@ predict.Discretization <- function(object, newdata) {
 	if (class(newdata) != "data.frame") {
 		stop("Argument 'newdata' is not a data.frame")
 	}
-	# TODO
-	print("Prediction")
+	all.split.points <- object$split.points
+
+	# next line ommits all attrs with no discretization split points
+	for (attr.name in names(all.split.points)) {
+		tresholds <- all.split.points[[attr.name]]
+		samples.num <- dim(newdata)[1]
+		for (sample.index in 1:samples.num) {
+			value.assigned <- FALSE
+			for (treshold.index in 1:length(tresholds)) {
+				if (newdata[[attr.name]][sample.index] <= tresholds[treshold.index]) {
+					newdata[[attr.name]][sample.index] <- treshold.index
+					value.assigned <- TRUE
+					break
+				}
+			}
+			if (!value.assigned) {
+				newdata[[attr.name]][sample.index] <- length(tresholds) + 1
+			}
+		}
+	}
+	return(newdata)
 }

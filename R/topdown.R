@@ -2,7 +2,7 @@ source("discretization.R")
 source("topdown_interval.R")
 source("topdown_stop_criterions.R")
 
-TopDown <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) {
+TopDown <- function(formula, data, stop.criterions=MinEntropyDecreaseCriterion(0)) {
 	# Computes the top-down discretization of given data.
 	#
 	# Args:
@@ -13,11 +13,13 @@ TopDown <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) {
 	#
 	# Returns:
 	#	model that can be used for discretization
-	if (!("TopDownStopCriterion" %in% class(stop.criterion))) {
-		stop("Argument 'stop.criterion' is not a TopDownStopCriterion")
-	}
+	model <- CreateBaseDiscretization(formula, data, stop.criterions)
 
-	model <- CreateBaseDiscretization(formula, data, stop.criterion)
+	for (stop.criterion in model$stop.criterions) {
+		if (!("TopDownStopCriterion" %in% class(stop.criterion))) {
+			stop("Argument 'stop.criterion' is not a TopDownStopCriterion")
+		}
+	}
 
 	model$call <- sys.call()
 
@@ -35,7 +37,7 @@ DiscretizeAttribute.TopDown <- function(object, attribute.name) {
 
 	intervals <- list(TopDownInterval(data, "labels", "attr"))
 	split.points <- c()
-	while (!Satisfied(object$stop.criterion, intervals)) {
+	while (!StopCriterionSatisfied(object, intervals)) {
 		max.entropy.decrease <- -Inf
 		selected.interval.index <- 0
 		index <- 1

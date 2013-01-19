@@ -1,25 +1,5 @@
 source("stop_criterion.R")
 
-MaxIntervalsNumCriterion <- function(max.intervals.num) {
-	criterion <- list(max.intervals.num=max.intervals.num)
-	class(criterion) <- c("MaxIntervalsNumCriterion", "TopDownStopCriterion", "StopCriterion")
-	return(criterion)
-}
-
-Satisfied.MaxIntervalsNumCriterion <- function(object, intervals) {
-	if (length(intervals) >= object$max.intervals.num) {
-		return(TRUE)
-	} else {
-		for (interval in intervals) {
-			print(interval)
-			if (interval$weighted.entropy.decrease > 0) {
-				return(FALSE)
-			}
-		}
-		return(TRUE)
-	}
-}
-
 MinEntropyDecreaseCriterion <- function(min.decrease) {
 	criterion <- list(min.decrease=min.decrease)
 	class(criterion) <- c("MinEntropyDecreaseCriterion", "TopDownStopCriterion", "StopCriterion")
