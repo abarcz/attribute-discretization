@@ -1,5 +1,8 @@
 library(e1071)
 
+source("topdown.R")
+source("bottomup.R")
+
 PrepareDataset <- function(path) {
 	data <- read.table(path)
 	data$V1 <- as.factor(data$V1)	# change to categorical type

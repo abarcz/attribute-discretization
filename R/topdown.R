@@ -1,6 +1,8 @@
 source("discretization.R")
 source("topdown_interval.R")
-source("topdown_stop_criterions.R")
+source("intervals_num_criterion.R")
+source("td_min_entropy_criterion.R")
+source("td_delta_criterion.R")
 
 TopDown <- function(formula, data, stop.criterions=MinEntropyDecreaseCriterion(0)) {
 	# Computes the top-down discretization of given data.
