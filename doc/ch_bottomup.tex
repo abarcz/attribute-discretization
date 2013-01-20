@@ -1,0 +1,25 @@
+Jako kryterium złączenia dwóch przyległych przedziałów dla dyskretyzacji wstępującej BottomUp zaimplementowano analizę statystki $\chi^2$. Na podstawie wartości aktualnie rozpatrywanego atrybutu, tworzone są przedziały (każda unikalna wartość w oddzielnym przedziale). Następnie przedziały są łączone aż osiągną kryterium stopu. Schemat działania kryterium połączenia dwóch przyległy przedziałów:
+\begin{enumerate}
+	\item{Dla każdego przyległego przedziału:}
+	\begin{enumerate}
+		\item{Oblicz wartość $\chi^2$}
+	\end{enumerate}
+	\item{Połącz dwa przedziały o minimalnej wartości $\chi^2$}
+\end{enumerate}
+Wartość statyski $\chi^2$ pomiędzy dwoma przedziałami jest liczona na podstawie wzoru: \\
+
+\begin{center}
+$\chi^2 = \sum_{i=1}^{2}\sum_{j}^{c}\frac{(A_{ij}-E_{ij})^2}{E_{ij}}$
+\end{center}
+Gdzie:
+\\$c$ = liczba k
+\\$A_{ij}$ = liczba wartości w i-tym przedziale, j-tej klasy
+\\$R_{i}$ = liczba wartości w i-tym przedziale
+\\$C_{j}$ = liczba obiektów j-tej klasy w obu przedziałach
+\\$N$ = liczba wartości w obu przedziałach
+\\$E_{ij} = (R+{i}*C_{j})/N$
+\\Zaimplementowane kryteria stopu:
+\begin{itemize}
+	\item{żądana ilość przedziałów -- algorytm stara się osiągnąć zadaną ilość przedziałów; uzyskana ilość przedziałów może być mniejsza od zadanej, gdy zostanie dodane kryterium  na maksymalną wartość $\chi^2$, dla której następuje złączenie przyległych przedziałów. }
+	\item{maksymalna wartość $\chi^2$) -- zatrzymanie algorytmu następuje gdy dla żadnej z pary przedziałów nie dało się osiągnąć wartości $\chi^2$ mniejsze od zadanej w kryterium}
+\end{itemize}
