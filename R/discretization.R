@@ -110,7 +110,30 @@ print.Discretization <- function(object, ...) {
 }
 
 summary.Discretization <- function(object, ...) {
-	print(object, ...)
+	discretized.attrs.num <- length(object$discretized.attrs)
+	max.intervals.num <- 0
+	min.intervals.num <- Inf
+	sum.intervals.num <- 0
+	split.points <- object$split.points
+	for (attr.name in object$discretized.attrs) {
+		if (is.null(split.points[[attr.name]])) {
+			intervals.num <- 1
+		} else {
+			intervals.num <- length(split.points[[attr.name]]) + 1
+		}
+		if (intervals.num > max.intervals.num) {
+			max.intervals.num <- intervals.num
+		}
+		if (intervals.num < min.intervals.num) {
+			min.intervals.num <- intervals.num
+		}
+		sum.intervals.num <- sum.intervals.num + intervals.num
+	}
+	mean.intervals.num <- sum.intervals.num / discretized.attrs.num
+	print(paste("discretized attributes:", discretized.attrs.num))
+	print(paste("min number of intervals:", min.intervals.num))
+	print(paste("max number of intervals:", max.intervals.num))
+	print(paste("mean number of intervals:", mean.intervals.num))
 }
 
 predict.Discretization <- function(object, newdata) {
