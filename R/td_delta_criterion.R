@@ -1,5 +1,5 @@
 
-source("stop_criterion.R")
+source("R/stop_criterion.R")
 
 DeltaCriterion <- function() {
 	# top-down stop criterion, using entropy and minimal encoding length

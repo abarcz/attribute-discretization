@@ -1,4 +1,4 @@
-source("intervals_num_criterion.R")
+source("R/intervals_num_criterion.R")
 
 # generic functions declarations
 DiscretizeAttribute <- function(object, attribute.name) {

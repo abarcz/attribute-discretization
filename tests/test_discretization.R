@@ -1,5 +1,5 @@
 
-source("R/discretization.R", chdir=TRUE)
+source("R/discretization.R")
 
 test.discretization <- function()
 {

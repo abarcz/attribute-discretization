@@ -1,5 +1,5 @@
 
-source("R/topdown.R", chdir=TRUE)
+source("R/topdown.R")
 
 test.topdown <- function()
 {
