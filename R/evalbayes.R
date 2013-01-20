@@ -26,5 +26,5 @@ CrossValidateBayes <- function(formula, dataset, n.folds) {
 	scores <- results.matrix
 	means <- apply(scores, 2, mean)
 	stds <- apply(scores, 2, sd)
-	return(list(accuracy=results.matrix, mean=means, std=stds))
+	return(list(mean=means, std=stds))
 }
