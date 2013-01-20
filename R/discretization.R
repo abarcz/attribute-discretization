@@ -138,6 +138,7 @@ predict.Discretization <- function(object, newdata) {
 				newdata[[attr.name]][sample.index] <- length(tresholds) + 1
 			}
 		}
+		newdata[[attr.name]] <- as.factor(newdata[[attr.name]])
 	}
 	return(newdata)
 }
