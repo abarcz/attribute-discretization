@@ -3,7 +3,7 @@ source("R/stop_criterion.R")
 source("R/intervals_num_criterion.R")
 source("R/bu_min_chi_criterion.R")
 
-BottomUp <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) {
+BottomUp <- function(formula, data, stop.criterion=RequestedIntervalsNumCriterion(5)) {
 	# Computes the top-down discretization of given data.
 	#
 	# Args:

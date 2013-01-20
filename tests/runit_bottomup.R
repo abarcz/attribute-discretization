@@ -1,6 +1,4 @@
 
-source("R/bottomup.R")
-
 test.bottomup <- function()
 {
 	checkException(BottomUp(), 'No-arg constructor not allowed')
