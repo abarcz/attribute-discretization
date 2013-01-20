@@ -1,12 +1,12 @@
 \section{Specyfikacja ogólna testów.}
  Testy zostały wykonane przy użyciu dwóch zbiorów danych - uczącego i testowego, zgodnie z następującym schematem:
-\begin{itemize}
+\begin{enumerate}
 	\item{Zbudowanie modelu dyskretyzacji na zbiorze uczącym}
 	\item{Dyskretyzacja zbioru uczącego przy użyciu modelu dyskretyzacji}
 	\item{Nauczenie klasyfikatora na zdyskretyzowanym zbiorze uczącym}
 	\item{Dyskretyzacja zbioru testowego przy użyciu modelu dyskretyzacji}
 	\item{Sprawdzenie jakości klasyfikacji na zdyskretyzowanym zbiorze uczącym}
-\end{itemize}
+\end{enumerate}
 Dla uzyskania wiarygodnych wyników zastosowano we wszystkich eksperymentach walidację krzyżową. Do testów użyto zbiór danych pomiarowych opisujących procesy zachodzące na czujnikach chemicznych \cite{Gas:2012}. Zbiór danych składa się z próbek o 129 atrybutach o wartościach ciągłych, na potrzeby eksperymentów dyskretyzowano wszystkie bądź wybrane atrybuty. Ze względu na długi czas dyskretyzacji do eksperymentów wykorzystano tylko zbiór \emph{batch1.dat}, składający się ze 445 próbek o dość równomiernym rozkładzie 6ciu klas. W celu zmniejszenia czasu eksperymentów, część z nich przeprowadzono dyskretyzując tylko atrybuty najistotniejsze z punktu widzenia klasy próbek. Zbiór wybranych atrybutów to: $\{V2, V7, V11, V18, V20, V26, V51, V67\}$. Atrybuty te zostały wybrane przy użyciu drzewa decyzyjnego z pakietu \emph{rpart}.
 
 \newpage
@@ -49,8 +49,8 @@ Do testów wykorzystano naiwny klasyfikator Bayesa z pakietu \emph{e1071}. Klasy
 \toprule
 metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
 \midrule
---       & --    & -- & 0.7592 & 0.0306 \\
-TopDown  & delta & -- & 0.8498 & 0.0436 \\
+--       & --								& -- & 0.7592 & 0.0306 \\
+TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8498 & 0.0436 \\
 \bottomrule
 \end{tabular}
 \caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
@@ -64,8 +64,8 @@ TopDown  & delta & -- & 0.8498 & 0.0436 \\
 \toprule
 metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
 \midrule
---       & --    & -- & 0.8711 & 0.0435 \\
-TopDown  & delta & -- & 0.8835 & 0.0158 \\
+--       & --    							& -- & 0.8711 & 0.0435 \\
+TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8835 & 0.0158 \\
 \bottomrule
 \end{tabular}
 \caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, ograniczony zbiór atrybutów dyskretyzowanych}

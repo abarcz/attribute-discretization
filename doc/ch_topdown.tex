@@ -1,0 +1,30 @@
+
+Jako kryterium podziału dla dyskretyzacji zstępującej (\emph{TopDown}) zaimplementowano wybór progu maksymalizującego spadek entropii dla wybranego przedziału w przypadku podzielenia przedziału na dwa nowe przedziały względem tego progu. Schemat działania kryterium podziału:
+\begin{enumerate}
+	\item{Dla każdego przedziału:}
+	\begin{enumerate}
+		\item{obliczenie progu $\theta$ maksymalizującego spadek entropii.}
+		\item{obliczenie ważonego (ilością próbek) spadku entropii dla wybranego progu.}
+	\end{enumerate}
+	\item{Wybranie przedziału o maksymalnym potencjalnym ważonym spadku entropii.}
+	\item{Podział wybranego przedziału na dwa nowe, względem wyznaczonego progu.}
+\end{enumerate}
+Zaimplementowane kryteria stopu:
+\begin{itemize}
+	\item{żądana ilość przedziałów -- algorytm stara się osiągnąć zadaną ilość przedziałów, nawet gdy kolejne podziały nie dają spadku entropii; uzyskana ilość przedziałów może być mniejsza od zadanej, gdy żadnego przedziału nie da się już podzielić (takie same wartości atrybutu $a$ w ramach każdego przedziału lub wszystkie przedziały jednoelementowe)}
+	\item{minimalny potencjalny spadek entropii (warunek globalny) -- zatrzymanie algorytmu następuje gdy dla żadnego z przedziałów nie da się osiągnąć zadanego jako parametr spadku entropii (nieważonego)}
+	\item{kryterium \emph{delta}~(\ref{eq:delta_criterion}), łączące jakość kodowania z entropią~\cite{cichosz2000systemy}}
+\end{itemize}
+
+\begin{equation}
+\displaystyle g_{a,\theta}(P) < \frac{\log(\vert P\vert-1)}{\vert P\vert}+ \frac{\Delta_{a,\theta}(P)}{\vert P\vert},
+\label{eq:delta_criterion}
+\end{equation}
+
+\begin{equation}
+\displaystyle \Delta_{a,\theta}(P) = \log(3^{\vert C_P\vert}-2) - \big(\vert C_P\vert I(P) - \vert C_{P_{a\leq\theta}}\vert E_{a\leq\theta}(P) - \vert C_{P_{a>\theta}}\vert E_{a>\theta}(P)\big),
+\end{equation}
+
+\begin{equation}
+\displaystyle C_P = \{d\in C \;\vert\; (\exists x\in P)\;c(x)=d\}.
+\end{equation}
