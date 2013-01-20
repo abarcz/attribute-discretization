@@ -1,0 +1,94 @@
+\section{Specyfikacja ogólna testów.}
+ Testy zostały wykonane przy użyciu dwóch zbiorów danych - uczącego i testowego, zgodnie z następującym schematem:
+\begin{itemize}
+	\item{Zbudowanie modelu dyskretyzacji na zbiorze uczącym}
+	\item{Dyskretyzacja zbioru uczącego przy użyciu modelu dyskretyzacji}
+	\item{Nauczenie klasyfikatora na zdyskretyzowanym zbiorze uczącym}
+	\item{Dyskretyzacja zbioru testowego przy użyciu modelu dyskretyzacji}
+	\item{Sprawdzenie jakości klasyfikacji na zdyskretyzowanym zbiorze uczącym}
+\end{itemize}
+Dla uzyskania wiarygodnych wyników zastosowano we wszystkich eksperymentach walidację krzyżową. Do testów użyto zbiór danych pomiarowych opisujących procesy zachodzące na czujnikach chemicznych \cite{Gas:2012}. Zbiór danych składa się z próbek o 129 atrybutach o wartościach ciągłych, na potrzeby eksperymentów dyskretyzowano wszystkie bądź wybrane atrybuty. Ze względu na długi czas dyskretyzacji do eksperymentów wykorzystano tylko zbiór \emph{batch1.dat}, składający się ze 445 próbek o dość równomiernym rozkładzie 6ciu klas. W celu zmniejszenia czasu eksperymentów, część z nich przeprowadzono dyskretyzując tylko atrybuty najistotniejsze z punktu widzenia klasy próbek. Zbiór wybranych atrybutów to: $\{V2, V7, V11, V18, V20, V26, V51, V67\}$. Atrybuty te zostały wybrane przy użyciu drzewa decyzyjnego z pakietu \emph{rpart}.
+
+\newpage
+\begin{alltt}
+rpart(V1 ~ ., gas1)
+n= 445 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 445 347 2 (0.2 0.22 0.19 0.067 0.16 0.17)  
+   2) V2< 31988.61 189  91 2 (0.048 0.52 0.43 0 0 0)  
+     4) V51>=5.942954 89   2 2 (0 0.98 0.022 0 0 0) *
+     5) V51< 5.942954 100  20 3 (0.09 0.11 0.8 0 0 0)  
+      10) V26< 8863.391 21  10 2 (0.43 0.52 0.048 0 0 0)  
+        20) V7< -1.138504 10   1 1 (0.9 0 0.1 0 0 0) *
+        21) V7>=-1.138504 11   0 2 (0 1 0 0 0 0) *
+      11) V26>=8863.391 79   0 3 (0 0 1 0 0 0) *
+   3) V2>=31988.61 256 175 1 (0.32 0 0.0039 0.12 0.27 0.29)  
+     6) V2< 194291.8 177  96 1 (0.46 0 0.0056 0.062 0.056 0.42)  
+      12) V18>=7439.422 71   3 1 (0.96 0 0.014 0.028 0 0) *
+      13) V18< 7439.422 106  32 6 (0.12 0 0 0.085 0.094 0.7)  
+        26) V67< 5.20329 29  16 1 (0.45 0 0 0.1 0.34 0.1)  
+          52) V20>=0.8470795 13   0 1 (1 0 0 0 0 0) *
+          53) V20< 0.8470795 16   6 5 (0 0 0 0.19 0.62 0.19) *
+        27) V67>=5.20329 77   6 6 (0 0 0 0.078 0 0.92) *
+     7) V2>=194291.8 79  19 5 (0 0 0 0.24 0.76 0)  
+      14) V11>=9.623032 21   2 4 (0 0 0 0.9 0.095 0) *
+      15) V11< 9.623032 58   0 5 (0 0 0 0 1 0) *
+\end{alltt}
+
+
+
+\section{Naiwny klasyfikator Bayesa.}
+Do testów wykorzystano naiwny klasyfikator Bayesa z pakietu \emph{e1071}. Klasyfikator Bayesa dla atrybutów o wartościach dyskretnych liczy bezpośrednio prawdopodobieństwa warunkowe, natomiast w przypadku atrybutów o wartościach ciągłych estymuje dla każdego atrybutu rozkład prawdopodobieństwa, co wiąże się z pewną niedokładnością predykcji. W związku z tym dobrze przeprowadzona dyskretyzacja atrybutu powinna polepszyć jakość klasyfikacji, dzięki uniknięciu estymacji rozkładu prawdopodobieństwa wartości atrybutu. W ramach eksperymentu przeprowadzono 5-krotną walidację krzyżową na zbiorze danych, wyniki zestawiono w tabeli~\ref{tab:bayes_full_set}. Wyniki 5-krotnej walidacji krzyżowej na zbiorze danych z ograniczonym zbiorem dyskretyzowanych atrybutów zestawiono w tabeli~\ref{tab:bayes_reduced_set}.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
+\midrule
+--       & --    & -- & 0.7592 & 0.0306 \\
+TopDown  & delta & -- & 0.8498 & 0.0436 \\
+\bottomrule
+\end{tabular}
+\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
+\label{tab:bayes_full_set}
+\end{center}
+
+\end{table}
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
+\midrule
+--       & --    & -- & 0.8711 & 0.0435 \\
+TopDown  & delta & -- & 0.8835 & 0.0158 \\
+\bottomrule
+\end{tabular}
+\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, ograniczony zbiór atrybutów dyskretyzowanych}
+\label{tab:bayes_reduced_set}
+\end{center}
+\end{table}
+
+\subsection{Porównanie działania metody wstępującej i zstępującej.}
+Jakość dyskretyzacji wstępującej i zstępującej porównano dla zadanej liczby przedziałów dla każdego dyskretyzowanego atrybutu. W tabeli~\ref{tab:bayes_td_bu_comp_full_set} zestawiono jakość klasyfikacji przy użyciu klasyfikatora Bayesa.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+metoda & średnia dokładność & odchylenie std \\
+\midrule
+--      & 0.7592	& 0.0306 \\
+TopDown & --		& --	\\
+BottomUp& --		& --	\\
+\bottomrule
+\end{tabular}
+\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, zadana ilość przedziałów = X}
+\label{tab:bayes_td_bu_comp_full_set}
+\end{center}
+\end{table}
+

@@ -1,0 +1,44 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=RoyalBlue]{hyperref}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{alltt}
+\usepackage{booktabs} % eleganckie tabelki
+\usepackage{graphicx}
+
+\newcounter{liczp}
+\newenvironment{example}{\refstepcounter{liczp}{\noindent
+{\bf Przykład~\theliczp:}\,}}
+
+
+\addtolength{\textwidth}{4cm}
+\addtolength{\hoffset}{-2cm}
+\addtolength{\textheight}{4cm}
+\addtolength{\voffset}{-2cm}
+\date {\today}
+\author {Aleksy Barcz, Wojciech Koszołko}
+\title{Dyskretyzacja atrybutów}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\bibliographystyle{plain}
+
+\chapter{Cel projektu.}
+\input{ch_goal}
+
+\chapter{Dyskretyzacja zstępująca.}
+\input{ch_topdown}
+
+\chapter{Dyskretyzacja wstępująca.}
+\input{ch_bottomup}
+
+\chapter{Testy.}
+\input{ch_tests}
+
+\nocite{*}
+\bibliography{main}
+
+
+\end{document}
