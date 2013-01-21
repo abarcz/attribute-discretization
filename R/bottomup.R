@@ -38,7 +38,7 @@ DiscretizeAttribute.BottomUp <- function(object, attribute.name) {
 	print(paste("discretize attribute", attribute.name))
 
 	data <- CreateSlice(object, attribute.name)
-
+	result.split.points <- c()
 	split.points <- CreateInintialSplitPoints(data)
 	print("initial split points")
 	print(split.points)
@@ -47,7 +47,10 @@ DiscretizeAttribute.BottomUp <- function(object, attribute.name) {
 	print(intervals)
 	chi.vector <- CalculateChiForAllIntervals(intervals)
 	minChi = min(chi.vector)
+	print(paste("initial minChi", minChi))
 	while (!StopCriterionSatisfied(object, intervals,minChi) && length(intervals)>1) {
+		result.split.points <- c(split.points)
+		print(paste("result.split.points", result.split.points))
 		chi.vector <- CalculateChiForAllIntervals(intervals)
 
 		minChi = min(chi.vector)
@@ -65,7 +68,7 @@ DiscretizeAttribute.BottomUp <- function(object, attribute.name) {
 		}
 	}
 
-	return(split.points)
+	return(result.split.points)
 }
 
 CreateIntervals <- function(data,split.points) {
@@ -113,7 +116,7 @@ CalculateChiForAllIntervals <- function(intervals) {
 	for(i in 1:(length(intervals)-1)) {
 		interval1 <- intervals[i]
 		interval2 <- intervals[i+1]
-		chi <- i
+		chi <- CalculateChi(interval1,interval2)
 		chi.vector <- append(chi.vector, chi)
 	}
 	return(chi.vector)
