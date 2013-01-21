@@ -1,0 +1,10 @@
+Package: discretize
+Type: Package
+Title: Top-down and bottom-up attribute discretization
+Version: 1.0
+Date: 2013-01-20
+Author: Aleksy Barcz, Wojciech Koszolko
+Maintainer: Aleksy Barcz <abarcz@stud.elka.pw.edu.pl>
+Depends: e1071, RUnit
+Description: Top-down and bottom-up attribute discretization using various stop criterions (several may be used at once).
+License: GPL
