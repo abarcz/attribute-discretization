@@ -1,11 +1,12 @@
 
-source("R/topdown.R", chdir=TRUE)
-
 test.topdown <- function()
 {
 	checkException(TopDown(), 'No-arg constructor not allowed')
 	checkException(TopDown(1, data.frame()), 'First arg must be formula')
 	checkException(TopDown(V ~ ., 0), 'Second arg must be data.frame')
+	checkException(TopDown(V ~ ., data.frame(), list()), "List of stop criterions cannot be empty")
+	checkException(TopDown(V ~ ., data.frame(), list(1)), "Invalid stop.criterion")
+	checkException(TopDown(V ~ ., data.frame(), RequestedIntervalsNumCriterion(1)))
 
 	x <- as.factor(c(0, 0, 1, 1, 0))
 	y <- c(1, 2, 3, 4, 5)

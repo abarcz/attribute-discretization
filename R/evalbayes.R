@@ -1,7 +1,7 @@
 library(e1071)
 
-source("topdown.R")
-source("bottomup.R")
+source("R/topdown.R")
+source("R/bottomup.R")
 
 PrepareDataset <- function(path) {
 	data <- read.table(path)

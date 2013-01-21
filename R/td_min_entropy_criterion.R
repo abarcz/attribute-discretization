@@ -1,5 +1,5 @@
 
-source("stop_criterion.R")
+source("R/stop_criterion.R")
 
 MinEntropyDecreaseCriterion <- function(min.decrease) {
 	# top-down stop criterion, checking for minimal entropy decrease

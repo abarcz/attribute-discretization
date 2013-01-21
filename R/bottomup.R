@@ -1,9 +1,9 @@
-source("discretization.R")
-source("stop_criterion.R")
-source("intervals_num_criterion.R")
-source("bu_min_chi_criterion.R")
+source("R/discretization.R")
+source("R/stop_criterion.R")
+source("R/intervals_num_criterion.R")
+source("R/bu_min_chi_criterion.R")
 
-BottomUp <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) {
+BottomUp <- function(formula, data, stop.criterions=RequestedIntervalsNumCriterion(5)) {
 	# Computes the top-down discretization of given data.
 	#
 	# Args:
@@ -15,7 +15,7 @@ BottomUp <- function(formula, data, stop.criterion=MaxIntervalsNumCriterion(5)) 
 	# Returns:
 	#	model that can be used for discretization
 
-	model <- CreateBaseDiscretization(formula, data, stop.criterion)
+	model <- CreateBaseDiscretization(formula, data, stop.criterions)
 
 	for (stop.criterion in model$stop.criterions) {
 		if (!("BottomUpStopCriterion" %in% class(stop.criterion))) {

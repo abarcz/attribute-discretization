@@ -1,8 +1,10 @@
 library('RUnit')
+source("R/bottomup.R")
+source("R/topdown.R")
  
 test.suite <- defineTestSuite("example",
 				dirs = file.path("tests"),
-				testFileRegexp = '^test_.*\\.R')
+				testFileRegexp = '^runit_.*\\.R')
  
 test.result <- runTestSuite(test.suite)
  

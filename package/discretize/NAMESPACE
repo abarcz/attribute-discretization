@@ -1,0 +1,5 @@
+export(CrossValidateBayes, DeltaCriterion, MinEntropyDecreaseCriterion, RequestedIntervalsNumCriterion, TopDown, BottomUp, MinChiCriterion)
+
+S3method(print, Discretization)
+S3method(summary, Discretization)
+S3method(predict, Discretization)

@@ -1,4 +1,4 @@
-source("intervals_num_criterion.R")
+source("R/intervals_num_criterion.R")
 
 # generic functions declarations
 DiscretizeAttribute <- function(object, attribute.name) {
@@ -100,7 +100,8 @@ StopCriterionSatisfied.Discretization <- function(object, intervals, ...) {
 	return(FALSE)
 }
 
-print.Discretization <- function(object, ...) {
+print.Discretization <- function(x, ...) {
+	object <- x
 	print(object$call)
 	split.points <- object$split.points
 	for (attr.name in object$discretized.attrs) {
@@ -138,7 +139,7 @@ summary.Discretization <- function(object, ...) {
 	print(paste("mean number of intervals :", mean.intervals.num))
 }
 
-predict.Discretization <- function(object, newdata) {
+predict.Discretization <- function(object, newdata, ...) {
 	# Discretize newdata according to already
 	# defined discretization.
 	if (class(newdata) != "data.frame") {

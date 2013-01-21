@@ -1,5 +1,5 @@
 
-source("stop_criterion.R")
+source("R/stop_criterion.R")
 
 RequestedIntervalsNumCriterion <- function(intervals.num) {
 	# stop criterion enforcing requested number of intervals
