@@ -1,0 +1,22 @@
+Projekt został zaimplementowany jako pakiet języka R, \emph{discretize}, posiadający następujący interfejs:
+\begin{itemize}
+\item{CrossValidateBayes}
+\item{RequestedIntervalsNumCriterion}
+\item{TopDown}
+	\begin{itemize}
+	\item{predict}
+	\item{print}
+	\item{summary}
+	\end{itemize}
+\item{DeltaCriterion}
+\item{MinEntropyDecreaseCriterion}
+\item{BottomUp}
+	\begin{itemize}
+	\item{predict}
+	\item{print}
+	\item{summary}
+	\end{itemize}
+\item{MinChiCriterion}
+\end{itemize}
+
+\noindent Każda publiczna metoda została udokumentowana (polecenie help()), a do pakietu dołączono testy jednostkowe napisane przy użyciu RUnit, wykonywane podczas budowania pakietu i wywoływane poleceniem "R CMD check katalog\_pakietu". Do pakietu został dołączony zestaw danych batch1.dat~\cite{Gas:2012}, który można załadować przy użyciu wywołania data(gas1).
