@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{BottomUp discretization stop criterion.}
 \description{
-A BottomUp discretization stop criterion.
+A BottomUp discretization stop criterion, which stops discretizing an attribute when minimum value of chi^2 is greater then requested minimum chi^2.
 }
 \usage{
 MinChiCriterion(min.chi)
