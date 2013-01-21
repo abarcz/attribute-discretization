@@ -9,6 +9,9 @@ DeltaCriterion <- function() {
 }
 
 Satisfied.DeltaCriterion <- function(object, intervals) {
+	# note: attempt to calculate min.entropy.decrease only once for each interval
+	# and storing the results in hashmap (used environment as hashmap),
+	# using unique id for each interval resulted in same processing time and problems
 	for (interval in intervals) {
 		new.intervals <- Split(interval)
 		delta <- log(3 ^ interval$classes.num - 2)
