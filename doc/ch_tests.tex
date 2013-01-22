@@ -7,7 +7,7 @@
 	\item{Dyskretyzacja zbioru testowego przy użyciu modelu dyskretyzacji}
 	\item{Sprawdzenie jakości klasyfikacji na zdyskretyzowanym zbiorze uczącym}
 \end{enumerate}
-Dla uzyskania wiarygodnych wyników zastosowano we wszystkich eksperymentach walidację krzyżową. Do testów użyto zbiór danych pomiarowych opisujących procesy zachodzące na czujnikach chemicznych \cite{Gas:2012}. Zbiór danych składa się z próbek o 129 atrybutach o wartościach ciągłych, na potrzeby eksperymentów dyskretyzowano wszystkie bądź wybrane atrybuty. Ze względu na długi czas dyskretyzacji do eksperymentów wykorzystano tylko zbiór \emph{batch1.dat}, składający się ze 445 próbek o dość równomiernym rozkładzie 6ciu klas. W celu zmniejszenia czasu eksperymentów, część z nich przeprowadzono dyskretyzując tylko atrybuty najistotniejsze z punktu widzenia klasy próbek. Zbiór wybranych atrybutów to: $\{V2, V7, V11, V18, V20, V26, V51, V67\}$. Atrybuty te zostały wybrane przy użyciu drzewa decyzyjnego z pakietu \emph{rpart}.
+Dla uzyskania wiarygodnych wyników zastosowano we wszystkich eksperymentach walidację krzyżową. Do testów użyto zbiór danych pomiarowych opisujących procesy zachodzące na czujnikach chemicznych \cite{Gas:2012}. Zbiór danych składa się z próbek o 129 atrybutach o wartościach ciągłych, na potrzeby eksperymentów dyskretyzowano wszystkie bądź wybrane atrybuty. Ze względu na długi czas dyskretyzacji do eksperymentów wykorzystano tylko zbiór \emph{batch1.dat}, składający się ze 445 próbek o dość równomiernym rozkładzie 6ciu klas. W celu zmniejszenia czasu eksperymentów, próbowano przeprowadzać część eksperymentów dyskretyzując tylko atrybuty najistotniejsze z punktu widzenia klasy próbek, jednakże wyniki tych eksperymentów były mało interesujące, w związku z czym skupiono się na dyskretyzowaniu całego zbioru atrybutów. Zbiór wybranych atrybutów to: $V_{imp} = \{V2, V7, V11, V18, V20, V26, V51, V67\}$. Atrybuty te zostały wybrane przy użyciu drzewa decyzyjnego z pakietu \emph{rpart}.
 
 \newpage
 \begin{alltt}
@@ -41,7 +41,7 @@ node), split, n, loss, yval, (yprob)
 
 
 \section{Naiwny klasyfikator Bayesa.}
-Do testów wykorzystano naiwny klasyfikator Bayesa z pakietu \emph{e1071}. Klasyfikator Bayesa dla atrybutów o wartościach dyskretnych liczy bezpośrednio prawdopodobieństwa warunkowe, natomiast w przypadku atrybutów o wartościach ciągłych estymuje dla każdego atrybutu rozkład prawdopodobieństwa, co wiąże się z pewną niedokładnością predykcji. W związku z tym dobrze przeprowadzona dyskretyzacja atrybutu powinna polepszyć jakość klasyfikacji, dzięki uniknięciu estymacji rozkładu prawdopodobieństwa wartości atrybutu. W ramach eksperymentu przeprowadzono 5-krotną walidację krzyżową na zbiorze danych, wyniki zestawiono w tabeli~\ref{tab:bayes_full_set}. Wyniki 5-krotnej walidacji krzyżowej na zbiorze danych z ograniczonym zbiorem dyskretyzowanych atrybutów zestawiono w tabeli~\ref{tab:bayes_reduced_set}. W tabeli~\ref{tab:bayes_min_entropy} zestawiono wyniki dla dyskretyzacji zstępującej i kryterium stopu wykorzystującego minimalny spadek entropii w obszarze interesujących wartości parametru (zadanego minimalnego spadku) wraz ze średnią ilością utworzonych przedziałów.
+Do testów wykorzystano naiwny klasyfikator Bayesa z pakietu \emph{e1071}. Klasyfikator Bayesa dla atrybutów o wartościach dyskretnych liczy bezpośrednio prawdopodobieństwa warunkowe, natomiast w przypadku atrybutów o wartościach ciągłych estymuje dla każdego atrybutu rozkład prawdopodobieństwa, co wiąże się z pewną niedokładnością predykcji. W związku z tym dobrze przeprowadzona dyskretyzacja atrybutu powinna polepszyć jakość klasyfikacji, dzięki uniknięciu estymacji rozkładu prawdopodobieństwa wartości atrybutu. W ramach eksperymentu przeprowadzono 5-krotną walidację krzyżową na zbiorze danych, wyniki zestawiono w tabeli~\ref{tab:bayes_full_set}. W tabeli~\ref{tab:bayes_min_entropy} zestawiono wyniki dla dyskretyzacji zstępującej i kryterium stopu wykorzystującego minimalny spadek entropii w obszarze interesujących wartości parametru (zadanego minimalnego spadku) wraz ze średnią ilością utworzonych przedziałów. Wyniki 5-krotnej walidacji krzyżowej na zbiorze danych z ograniczonym zbiorem dyskretyzowanych atrybutów zestawiono w tabeli~\ref{tab:bayes_reduced_set} - eksperymenty te dawały mniej interesujące wyniki w związku z czym skupiono się na eksperymentach dysretyzujących wszystkie dostępne atrybuty.
 
 \begin{table}[h!]
 \begin{center}
@@ -51,10 +51,13 @@ metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
 \midrule
 --       & --								& -- & 0.7592 & 0.0306 \\
 TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8498 & 0.0436 \\
-BottomUp & maksymalna wartość $\chi^2$ 		& -- & 0.3198 & 0.0226 \\
+TopDown  & minimalna wartość entropii       &0.18 & 0.8315 & 0.0286 \\
+TopDown  & zadana ilość przedziałów         & 6  & 0.8352	& 0.0541 \\
+BottomUp & maksymalna wartość $\chi^2$ 		& 0.01 & 0.3198 & 0.0226 \\
+BottomUp & zadana ilość przedziałów         & 6  & 0.3423	& 0.0434 \\
 \bottomrule
 \end{tabular}
-\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
+\caption{$V1 \sim .$, dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
 \label{tab:bayes_full_set}
 \end{center}
 \end{table}
@@ -67,10 +70,10 @@ metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
 \midrule
 --       & --    							& -- & 0.8711 & 0.0435 \\
 TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8835 & 0.0158 \\
-BottomUp & maksymalna wartość $\chi^2$ 		& -- & 0.3398 & 0.0926 \\
+BottomUp & maksymalna wartość $\chi^2$ 		& 0.01 & 0.3398 & 0.0926 \\
 \bottomrule
 \end{tabular}
-\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, ograniczony zbiór atrybutów dyskretyzowanych}
+\caption{$V1 \sim V_{imp}$, dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
 \label{tab:bayes_reduced_set}
 \end{center}
 \end{table}
@@ -94,13 +97,13 @@ min spadek entropii &  średnia dokładność &  odchylenie std & średnia iloś
 0.10 & 0.6922 & 0.0385 & 123.52 \\
 \bottomrule
 \end{tabular}
-\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, TopDown + MinEntropyDecreaseCriterion}
+\caption{$V1 \sim .$, dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, TopDown + MinEntropyDecreaseCriterion}
 \label{tab:bayes_min_entropy}
 \end{center}
 \end{table}
 
 \subsection{Porównanie działania metody wstępującej i zstępującej.}
-Jakość dyskretyzacji wstępującej i zstępującej porównano dla zadanej liczby przedziałów dla każdego dyskretyzowanego atrybutu. W tabeli~\ref{tab:bayes_td_bu_comp_full_set} zestawiono jakość klasyfikacji przy użyciu klasyfikatora Bayesa.
+Jakość dyskretyzacji wstępującej i zstępującej porównano dla zadanej liczby przedziałów dla każdego atrybutu. W tabeli~\ref{tab:bayes_td_bu_comp_full_set} zestawiono jakość klasyfikacji przy użyciu klasyfikatora Bayesa.
 
 \begin{table}[h!]
 \begin{center}
@@ -109,12 +112,15 @@ Jakość dyskretyzacji wstępującej i zstępującej porównano dla zadanej licz
 metoda & średnia dokładność & odchylenie std \\
 \midrule
 --      & 0.7592	& 0.0306 \\
-TopDown & --		& --	\\
+TopDown & 0.8352	& 0.0541	\\
 BottomUp& 0.3423	& 0.0434	\\
 \bottomrule
 \end{tabular}
-\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, zadana ilość przedziałów = 6}
+\caption{$V1 \sim .$, porównanie działania metody zstępującej i wstępującej, dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, zadana ilość przedziałów = 6}
 \label{tab:bayes_td_bu_comp_full_set}
 \end{center}
 \end{table}
 
+\newpage
+\section{Wnioski.}
+Dyskretyzacja okazała się najbardziej korzystna w przypadku zdyskretyzowania wszystkich atrybutów zbioru danych -- uzyskano dużą poprawę dokładności klasyfikacji przy użyciu dyskretyzacji zstępującej. W przypadku wybrania tylko najbardziej istotnych atrybutów skok jakościowy nie jest już tak widoczny, choć zauważalna jest pewna stabilizacja wyników -- mniejsze odchylenie standardowe. Prawdopodobnie wynika to z faktu, że duża ilość nieistotnych atrybutów mocno zaburza działanie klasyfikatora Bayesa i wskazuje na konieczność selekcji atrybutów przy praktycznej klasyfikacji danych. Dla kryterium zstępującego przetestowano trzy różne kryteria stopu -- wyniki wskazują, że najlepszym (a jednoczesnie najwygodniejszym w użyciu, bo bezparametrycznym) kryterium stop jest kryterium \emph{delta}, bardziej elastyczne od dwóch pozostałych, dopasowujące się lokalnie do analizowanego przedziału. Okazało się jednak, że dwa pozostałe kryteria -- minimalny próg spadku entropii oraz żądana ilość przedziałów uzyskały wyniki bardzo zbliżone do kryterium \emph{delta}. Wymagało to jednak optymalizacji wartości ich parametrów. Dla kryterium wstępującego nie udało się uzyskać dobrych wyników, mimo sprawdzenia działania algorytmu na publicznie dostępnych przykładach oraz eksperymentów z wartością parametru $\chi^{2}_{min}$. Słabe wyniki dyskretyzacji były spowodowane osiąganiem niskich wartości $\chi^2$ dla przyległych wartości. To powodowało zbyt częste łączenie przyległych przedziałów wartości. Przypuszczalnie analizowany zbiór danych kiepsko nadaje się do stosowania tej metody, co wskazuje na konieczność dobierania metody dyskretyzacji do analizowanego zbioru danych. 

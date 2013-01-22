@@ -19,4 +19,12 @@ Projekt został zaimplementowany jako pakiet języka R, \emph{discretize}, posia
 \item{MinChiCriterion}
 \end{itemize}
 
-\noindent Każda publiczna metoda została udokumentowana (polecenie help()), a do pakietu dołączono testy jednostkowe napisane przy użyciu RUnit, wykonywane podczas budowania pakietu i wywoływane poleceniem "R CMD check katalog\_pakietu". Do pakietu został dołączony zestaw danych batch1.dat~\cite{Gas:2012}, który można załadować przy użyciu wywołania data(gas1).
+\noindent Każda publiczna metoda została udokumentowana (polecenie help()), a do pakietu dołączono testy jednostkowe napisane przy użyciu RUnit, wykonywane podczas budowania pakietu i wywoływane poleceniem "R CMD check katalog\_pakietu". Do pakietu został dołączony zestaw danych batch1.dat~\cite{Gas:2012}, który można załadować przy użyciu wywołania data(gas1). Pakiet został sprawdzony i zbudowany bez ostrzeżeń przy użyciu poleceń:
+\begin{alltt}
+R CMD check discretize
+R CMD build --resave-data discretize
+\end{alltt}
+\noindent Oraz zainstalowany poleceniem:
+\begin{alltt}
+R CMD INSTALL --clean discretize_1.0.tar.gz
+\end{alltt}
