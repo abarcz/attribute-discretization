@@ -41,7 +41,7 @@ node), split, n, loss, yval, (yprob)
 
 
 \section{Naiwny klasyfikator Bayesa.}
-Do testów wykorzystano naiwny klasyfikator Bayesa z pakietu \emph{e1071}. Klasyfikator Bayesa dla atrybutów o wartościach dyskretnych liczy bezpośrednio prawdopodobieństwa warunkowe, natomiast w przypadku atrybutów o wartościach ciągłych estymuje dla każdego atrybutu rozkład prawdopodobieństwa, co wiąże się z pewną niedokładnością predykcji. W związku z tym dobrze przeprowadzona dyskretyzacja atrybutu powinna polepszyć jakość klasyfikacji, dzięki uniknięciu estymacji rozkładu prawdopodobieństwa wartości atrybutu. W ramach eksperymentu przeprowadzono 5-krotną walidację krzyżową na zbiorze danych, wyniki zestawiono w tabeli~\ref{tab:bayes_full_set}. Wyniki 5-krotnej walidacji krzyżowej na zbiorze danych z ograniczonym zbiorem dyskretyzowanych atrybutów zestawiono w tabeli~\ref{tab:bayes_reduced_set}.
+Do testów wykorzystano naiwny klasyfikator Bayesa z pakietu \emph{e1071}. Klasyfikator Bayesa dla atrybutów o wartościach dyskretnych liczy bezpośrednio prawdopodobieństwa warunkowe, natomiast w przypadku atrybutów o wartościach ciągłych estymuje dla każdego atrybutu rozkład prawdopodobieństwa, co wiąże się z pewną niedokładnością predykcji. W związku z tym dobrze przeprowadzona dyskretyzacja atrybutu powinna polepszyć jakość klasyfikacji, dzięki uniknięciu estymacji rozkładu prawdopodobieństwa wartości atrybutu. W ramach eksperymentu przeprowadzono 5-krotną walidację krzyżową na zbiorze danych, wyniki zestawiono w tabeli~\ref{tab:bayes_full_set}. Wyniki 5-krotnej walidacji krzyżowej na zbiorze danych z ograniczonym zbiorem dyskretyzowanych atrybutów zestawiono w tabeli~\ref{tab:bayes_reduced_set}. W tabeli~\ref{tab:bayes_min_entropy} zestawiono wyniki dla dyskretyzacji zstępującej i kryterium stopu wykorzystującego minimalny spadek entropii w obszarze interesujących wartości parametru (zadanego minimalnego spadku) wraz ze średnią ilością utworzonych przedziałów.
 
 \begin{table}[h!]
 \begin{center}
@@ -56,8 +56,8 @@ TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8498 & 0.0436 \\
 \caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
 \label{tab:bayes_full_set}
 \end{center}
-
 \end{table}
+
 \begin{table}[h!]
 \begin{center}
 \begin{tabular}{lrrrr}
@@ -70,6 +70,30 @@ TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8835 & 0.0158 \\
 \end{tabular}
 \caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, ograniczony zbiór atrybutów dyskretyzowanych}
 \label{tab:bayes_reduced_set}
+\end{center}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+min spadek entropii &  średnia dokładność &  odchylenie std & średnia ilość przedziałów \\
+\midrule
+0.20 & 0.8320 & 0.0514 & 1.82 \\
+0.19 & 0.8074 & 0.0601 & 3.85 \\
+0.18 & 0.8315 & 0.0286 & 4.03 \\
+0.17 & 0.8300 & 0.0633 & 10.42 \\
+0.16 & 0.8108 & 0.0681 & 15.46 \\
+0.15 & 0.8143 & 0.0425 & 19.39 \\
+0.14 & 0.8118 & 0.0510 & 28.46 \\
+0.13 & 0.7745 & 0.0613 & 44.85 \\
+0.12 & 0.7362 & 0.0682 & 66.90 \\
+0.11 & 0.7271 & 0.0630 & 92.32 \\
+0.10 & 0.6922 & 0.0385 & 123.52 \\
+\bottomrule
+\end{tabular}
+\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, TopDown + MinEntropyDecreaseCriterion}
+\label{tab:bayes_min_entropy}
 \end{center}
 \end{table}
 
