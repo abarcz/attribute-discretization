@@ -51,6 +51,7 @@ metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
 \midrule
 --       & --								& -- & 0.7592 & 0.0306 \\
 TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8498 & 0.0436 \\
+BottomUp & maksymalna wartość $\chi^2$ 		& -- & 0.3198 & 0.0226 \\
 \bottomrule
 \end{tabular}
 \caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa}
@@ -66,6 +67,7 @@ metoda & kryterium stopu & parametr & średnia dokładność & odchylenie std \\
 \midrule
 --       & --    							& -- & 0.8711 & 0.0435 \\
 TopDown  & delta~(\ref{eq:delta_criterion}) & -- & 0.8835 & 0.0158 \\
+BottomUp & maksymalna wartość $\chi^2$ 		& -- & 0.3398 & 0.0926 \\
 \bottomrule
 \end{tabular}
 \caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, ograniczony zbiór atrybutów dyskretyzowanych}
@@ -108,10 +110,10 @@ metoda & średnia dokładność & odchylenie std \\
 \midrule
 --      & 0.7592	& 0.0306 \\
 TopDown & --		& --	\\
-BottomUp& --		& --	\\
+BottomUp& 0.3423	& 0.0434	\\
 \bottomrule
 \end{tabular}
-\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, zadana ilość przedziałów = X}
+\caption{Dokładność klasyfikacji - klasyfikator Bayesa, 5-krotna walidacja krzyżowa, zadana ilość przedziałów = 6}
 \label{tab:bayes_td_bu_comp_full_set}
 \end{center}
 \end{table}
